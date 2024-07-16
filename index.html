@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Geolocation Test</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(
+                    function(position){
+                        // success
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        alert("Latitude: " + lat);
+                        alert("Longitude: " + lng);
+                        showMap(lat, lng);
+                    },
+                    function(){
+                        // error
+                        alert("Geolocation error occurred.");
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 6000,
+                        maximumAge: 600000
+                    }
+                );
+            }else{
+                // can't use your browser
+                alert("Geolocation is not supported by your browser.");
+            }
+        });
+
+        function showMap(lat, lng) {
+            const mapUrl = `https://www.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
+            document.getElementById("map").innerHTML = `<iframe width="100%" height="400" frameborder="0" style="border:0" src="${mapUrl}" allowfullscreen></iframe>`;
+        }
+    </script>
+</head>
+<body>
+    <h1>Geolocation Google Map Test</h1>
+    <p>Your location is displayed on the map below.</p>
+    <div id="map"></div>
+</body>
+</html>
